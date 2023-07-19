@@ -1,0 +1,38 @@
+.page {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  background-color: #202020;
+  margin: 0 auto;
+  color: #FFF;
+  max-width: 1280px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+html {
+  position: relative;
+}
+
+.auto-width {
+  width: 89.06vw;
+}
+
+/* из-за полосы прокрутки всё не PixelPerfect, поэтому меняю с vw на % в нижнем правиле */
+
+@media screen and (min-width: 1280.98px) {
+  .auto-width {
+    width: 89.06%;
+  }
+}
+
+@media screen and (max-width: 1279.98px) {
+  .auto-width {
+    width: 92.19vw;
+  }
+}
+
+@media screen and (max-width: 767.98px) {
+  .auto-width {
+    width: 91.25vw;
+  }
+}
