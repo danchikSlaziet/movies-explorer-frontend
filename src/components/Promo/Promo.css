@@ -2,6 +2,8 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  box-sizing: border-box;
+  max-width: 1140px;
 }
 
 @media screen and (max-width: 1279.98px) {
@@ -12,12 +14,22 @@
 }
 
 .page__promo {
-  margin-bottom: 75px;
+  padding-bottom: 75px;
+  position: relative;
+  margin: 0 auto;
+  margin-bottom: 110px;
+}
+
+@media screen and (max-width: 1279.98px) {
+  .page__promo {
+    margin-bottom: 90px;
+  }
 }
 
 @media screen and (max-width: 767.98px) {
   .page__promo {
-    margin-bottom: 30px;
+    padding-bottom: 30px;
+    margin-bottom: 70px;
   }
 }
 

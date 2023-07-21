@@ -3,32 +3,25 @@
   align-items: center;
   justify-content: space-between;
   padding: 18px 0;
-}
-
-.header::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  top: 0;
-  right: 0;
-  z-index: -1;
-  background-color: #073042;
+  max-width: 1140px;
+  box-sizing: border-box;
 }
 
 .page__header {
-  margin: 0 auto 75px auto;
+  margin: 0 auto;
+  padding-bottom: 93px;
+  position: relative;
 }
 
 @media screen and (max-width: 1279.98px) {
   .page__header {
-    margin-bottom: 140px;
+    padding-bottom: 158px;
   }
 }
 
 @media screen and (max-width: 767.98px) {
   .page__header {
-    margin-bottom: 70px;
+    padding-bottom: 88px;
   }
 }
 
