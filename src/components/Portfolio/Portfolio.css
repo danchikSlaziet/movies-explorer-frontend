@@ -64,6 +64,10 @@
   }
 }
 
+.portfolio__link {
+  transition: opacity .24s linear;
+}
+
 .portfolio__link:hover {
   opacity: .5;
 }

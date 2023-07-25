@@ -10,7 +10,7 @@ export default function Footer() {
       </div>
       <div className='footer__info'>
         <span className='footer__copy'>
-          © 2020
+          © 2023
         </span>
         <div className='footer__links'>
           <a className='footer__link' href="https://practicum.yandex.ru/" target='blank'>
