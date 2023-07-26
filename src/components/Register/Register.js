@@ -25,7 +25,7 @@ export default function Register() {
           <span className='auth-form__label'>
             Имя
           </span>
-          <input className='auth-form__input auth-form__input_type_name' type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} />
+          <input required className='auth-form__input auth-form__input_type_name' type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} />
           <span className='auth-form__error'>
             {/* Что-то пошло не так... */}
           </span>
