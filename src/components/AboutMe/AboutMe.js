@@ -11,9 +11,9 @@ export default function AboutMe() {
       </div>
       <div className='about-me__info'>
         <div className='about-me__text'>
-          <p className='about-me__name'>
+          <h3 className='about-me__name'>
             Виталий
-          </p>
+          </h3>
           <p className='about-me__career'>
             Фронтенд-разработчик, 30 лет
           </p>

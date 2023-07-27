@@ -29,7 +29,7 @@ export default function AboutProject() {
       </div>
       <div className='project__progress'>
         <div className='project__back-line'>
-          <p className='project__text-line'>
+          <p className='project__text-line project__text-line_bg_green'>
             1 неделя
           </p>
           <p className='project__text-underline'>
@@ -37,7 +37,7 @@ export default function AboutProject() {
           </p>
         </div>
         <div className='project__front-line'>
-          <p className='project__text-line project__text-line_color_white'>
+          <p className='project__text-line project__text-line_bg_gray project__text-line_color_white'>
             4 недели
           </p>
           <p className='project__text-underline'>

@@ -11,6 +11,7 @@ import BurgerButton from '../BurgerButton/BurgerButton';
 export default function Header({children, background, inMain, profileHandler}) { 
   const navigate = useNavigate();
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
+  const otherPadding = 'header_padd_other';
 
   function logoHandler() {
     navigate('/');
@@ -21,7 +22,7 @@ export default function Header({children, background, inMain, profileHandler}) {
 
   return (
     <div className={background}>
-      <header className="header page__header auto-width">
+      <header className={`header page__header auto-width ${inMain ? '': otherPadding}`}>
         <img onClick={logoHandler} className='header__logo' src={logoPath} alt="изображение логотипа" />
         <Navigation inMain={inMain}/>
         <div className='header__buttons-wrapper'>

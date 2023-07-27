@@ -2,10 +2,8 @@
   display: none;
   position: fixed;
   right: 30px;
-  padding: 0;
   width: 44px;
   height: 44px;
-  border: none;
   background-color: rgb(32, 32, 32, .6);
   transition: opacity .24s linear;
   z-index: 10;

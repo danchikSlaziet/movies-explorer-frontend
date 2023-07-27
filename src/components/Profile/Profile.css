@@ -4,18 +4,18 @@
 }
 
 .page__profile {
-  margin: 0 auto;
+  margin: 74px auto 0 auto;
 }
 
 @media screen and (max-width: 1279.98px) {
   .page__profile {
-    margin-top: 96px;
+    margin-top: 183px;
   }
 }
 
 @media screen and (max-width: 767.98px) {
   .page__profile {
-    margin-top: 0;
+    margin-top: 17px;
   }
 }
 
@@ -65,10 +65,22 @@
 }
 
 .profile__name, .profile__mail {
+  color: #FFF;
   text-align: right;
   font-size: 11px;
   line-height: normal;
   display: block;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+}
+
+.profile__name:focus, .profile__mail:focus {
+  outline: none;
+}
+
+.profile__input_active {
+  color: #4285F4;
 }
 
 .profile__wrapper {

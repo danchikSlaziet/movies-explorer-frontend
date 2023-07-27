@@ -15,31 +15,32 @@ export default function Register() {
   }
 
   return (
-    <section className='register page__register'>
-      <img onClick={logoHandler} className='register__logo' src={logoPath} alt="изображение логотипа" />
-      <p className='register__text'>
-        Добро пожаловать!
-      </p>
-      <AuthForm mail={mail} setMail={setMail} password={password} setPassword={setPassword}>
-        <div className='auth-form__input-wrapper'>
-          <span className='auth-form__label'>
-            Имя
+    <main>
+      <section className='register page__register'>
+        <img onClick={logoHandler} className='register__logo' src={logoPath} alt="изображение логотипа" />
+        <h1 className='register__text'>
+          Добро пожаловать!
+        </h1>
+        <AuthForm buttonText={"Зарегистрироваться"} mail={mail} setMail={setMail} password={password} setPassword={setPassword}>
+          <div className='auth-form__input-wrapper'>
+            <span className='auth-form__label'>
+              Имя
+            </span>
+            <input minLength={2} maxLength={30} placeholder='Введите имя' required className='auth-form__input auth-form__input_type_name' type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} />
+            <span className='auth-form__error'>
+              {/* Что-то пошло не так... */}
+            </span>
+          </div>
+        </AuthForm>
+        <div className='register__link-wrapper'>
+          <span className='register__question'>
+            Уже зарегистрированы?
           </span>
-          <input required className='auth-form__input auth-form__input_type_name' type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} />
-          <span className='auth-form__error'>
-            {/* Что-то пошло не так... */}
-          </span>
+          <NavLink className='register__link' to='/signin'>
+            Войти
+          </NavLink>
         </div>
-      </AuthForm>
-      <button className='register__button' type="button">Зарегистрироваться</button>
-      <div className='register__link-wrapper'>
-        <span className='register__question'>
-          Уже зарегистрированы?
-        </span>
-        <NavLink className='register__link' to='/signin'>
-          Войти
-        </NavLink>
-      </div>
-    </section>
+      </section>
+    </main>
   );
 }

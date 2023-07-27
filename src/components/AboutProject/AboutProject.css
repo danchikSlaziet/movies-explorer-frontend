@@ -1,16 +1,16 @@
 .page__project {
-  margin: 0 auto 141px auto;
+  margin: 0 auto 110px auto;
 }
 
 @media screen and (max-width: 1279.98px) {
   .page__project {
-    margin-bottom: 121px;
+    margin-bottom: 90px;
   }
 }
 
 @media screen and (max-width: 767.98px) {
   .page__project {
-    margin-bottom: 93px;
+    margin-bottom: 71px;
   }
 }
 
@@ -36,7 +36,7 @@
 
 @media screen and (max-width: 767.98px) {
   .project__line {
-    margin-bottom: 60px;
+    margin-bottom: 61px;
   }
 }
 
@@ -44,13 +44,13 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 40px;
+  gap: 50px;
   margin-bottom: 110px;
 }
 
 @media screen and (max-width: 1279.98px) {
   .project__info-wrapper {
-    gap: 30px;
+    gap: 38px;
     margin-bottom: 93px;
   }
 }
@@ -58,7 +58,7 @@
 @media screen and (max-width: 767.98px) {
   .project__info-wrapper {
     flex-direction: column;
-    gap: 56px;
+    gap: 57px;
     margin-bottom: 60px;
   }
 }
@@ -111,32 +111,46 @@
 }
 
 .project__back-line {
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 20%;
-  background-color: #3DDC84;
+  gap: 14px;
+}
+
+@media screen and (max-width: 1279.98px) {
+  .project__back-line {
+    width: 21%;
+  }
 }
 
 @media screen and (max-width: 767.98px) {
   .project__back-line {
     width: 35%;
+    gap: 10px;
   }
 }
 
 .project__front-line {
-  position: relative;
   width: 80%;
-  background-color: #303030;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
 }
 
 @media screen and (max-width: 767.98px) {
   .project__front-line {
     width: 65%;
+    gap: 10px;
   }
 }
 
 .project__text-line {
+  box-sizing: border-box;
+  width: 100%;
   margin: 0;
-  padding: 9px 0;
+  padding: 10px;
   text-align: center;
   color: #000;
   font-size: 14px;
@@ -150,15 +164,20 @@
   }
 }
 
+.project__text-line_bg_green {
+  background-color: #3DDC84;
+}
+
+.project__text-line_bg_gray {
+  background-color: #303030;;
+}
+
 .project__text-line_color_white {
   color: #FFF;
 }
 
 .project__text-underline {
-  position: absolute;
   margin: 0;
-  bottom: -14px;
-  transform: translateY(100%);
   width: 100%;
   text-align: center;
   color: #8B8B8B;
@@ -177,7 +196,6 @@
 
 @media screen and (max-width: 767.98px) {
   .project__text-underline {
-    bottom: -10px;
     font-size: 11px;
     line-height: normal;
   }

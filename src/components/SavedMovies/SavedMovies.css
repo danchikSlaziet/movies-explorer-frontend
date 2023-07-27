@@ -4,18 +4,12 @@
 }
 
 .page__saved-movies {
-  margin-top: 5px;
+  margin-top: 80px;
   margin-bottom: 170px;
 }
 
 @media screen and (max-width: 1279.98px) {
   .page__saved-movies {
-    margin-top: -80px;
-  }
-}
-
-@media screen and (max-width: 767.98px) {
-  .page__saved-movies {
-    margin-top: -10px;
+    margin-top: 7px;
   }
 }

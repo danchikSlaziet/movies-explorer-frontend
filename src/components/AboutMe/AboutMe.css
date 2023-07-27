@@ -45,6 +45,7 @@
   line-height: 58px;
   letter-spacing: -2px;
   margin: 0 0 18px 0;
+  font-weight: 400;
 }
 
 @media screen and (max-width: 1279.98px) {

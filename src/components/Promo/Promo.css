@@ -4,12 +4,14 @@
   justify-content: space-between;
   box-sizing: border-box;
   max-width: 1140px;
+  padding-top: 75px;
 }
 
 @media screen and (max-width: 1279.98px) {
   .promo {
     flex-direction: column;
     align-items: center;
+    padding-top: 140px;
   }
 }
 
@@ -28,6 +30,7 @@
 
 @media screen and (max-width: 767.98px) {
   .page__promo {
+    padding-top: 70px;
     padding-bottom: 30px;
     margin-bottom: 70px;
   }
@@ -82,19 +85,20 @@
   }
 }
 
-.promo__button {
+.promo__link {
+  display: inline-block;
   font-size: 12px;
   font-weight: 500;
   line-height: 16px;
   color: #FFF;
-  padding: 10px 20px;
+  padding: 9px 19px;
   border: 1px solid rgb(255, 255, 255, 0.6000000238418579);
   border-radius: 3px;
   background-color: transparent;
   transition: opacity .24s linear;
 }
 
-.promo__button:hover {
+.promo__link:hover {
   cursor: pointer;
   opacity: .5;
 }

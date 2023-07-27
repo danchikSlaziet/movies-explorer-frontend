@@ -58,37 +58,6 @@
   }
 }
 
-.login__button {
-  color: #FFF;
-  text-align: center;
-  font-family: Inter;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  background-color: #4285F4;
-  border: none;
-  border-radius: 3px;
-  width: 100%;
-  padding: 13px 5px 15px 5px;
-  margin-bottom: 16px;
-  transition: opacity .24s linear;
-  margin-top: 70px;
-}
-
-.login__button:hover {
-  opacity: .5;
-  cursor: pointer;
-}
-
-@media screen and (max-width: 767.98px) {
-  .login__button {
-    font-size: 12px;
-    padding-top: 15px;
-    margin-bottom: 14px;
-  }
-}
-
 .login__link-wrapper {
   display: flex;
   gap: 6px;
@@ -122,6 +91,11 @@
   font-size: 14px;
   line-height: normal;
   text-decoration: none;
+  transition: opacity .24s linear;
+}
+
+.login__link:hover {
+  opacity: .5;
 }
 
 @media screen and (max-width: 767.98px) {

@@ -10,10 +10,10 @@ export default function BurgerMenu({ isBurgerOpen, burgerHandler, profileHandler
         profileHandler();
         burgerHandler();
       }} className='burger-menu__account' type="button">
-        <p className='burger-menu__text'>
+        <span className='burger-menu__text'>
           Аккаунт
-        </p>
-        <img className='burger-menu__img' src={accountPath} alt="картинка кнопки профиля" />
+        </span>
+        <img className='burger-menu__img' src={accountPath} alt="svg изображение кнопки профиля, белый силуэт на черном фоне" />
       </button>
     </div>
   );

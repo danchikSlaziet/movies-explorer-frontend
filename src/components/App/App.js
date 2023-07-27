@@ -39,10 +39,10 @@ export default function App() {
           <>
             <Header profileHandler={profileHandler} background='bgHeader-logged'>
               <button onClick={profileHandler} className='header__account account' type="button">
-                <p className='account__text'>
+                <span className='account__text'>
                   Аккаунт
-                </p>
-                <img className='account__img' src={accountPath} alt="картинка кнопки профиля" />
+                </span>
+                <img className='account__img' src={accountPath} alt="svg изображение кнопки профиля, белый силуэт на черном фоне" />
               </button>
             </Header>
             <Movies />
@@ -52,10 +52,10 @@ export default function App() {
           <>
             <Header profileHandler={profileHandler} background='bgHeader-logged'>
               <button onClick={profileHandler} className='header__account account' type="button">
-                <p className='account__text'>
+                <span className='account__text'>
                   Аккаунт
-                </p>
-                <img className='account__img' src={accountPath} alt="картинка кнопки профиля" />
+                </span>
+                <img className='account__img' src={accountPath} alt="svg изображение кнопки профиля, белый силуэт на черном фоне" />
               </button>
             </Header>
             <SavedMovies />
@@ -65,10 +65,10 @@ export default function App() {
           <>
             <Header profileHandler={profileHandler} background='bgHeader-logged'>
               <button onClick={profileHandler} className='header__account account' type="button">
-                <p className='account__text'>
+                <span className='account__text'>
                   Аккаунт
-                </p>
-                <img className='account__img' src={accountPath} alt="картинка кнопки профиля" />
+                </span>
+                <img className='account__img' src={accountPath} alt="svg изображение кнопки профиля, белый силуэт на черном фоне" />
               </button>
             </Header>
             <Profile />

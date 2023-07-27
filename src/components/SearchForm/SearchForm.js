@@ -12,7 +12,7 @@ export default function SearchForm() {
   return (
     <form onSubmit={handleSubmit} className='search-form'>
       <div className='search-form__input-wrapper'>
-        <input placeholder='Фильм' className='search-form__input' type="text" name="search" value={film} onChange={(e) => setFilm(e.target.value)} />
+        <input required placeholder='Фильм' className='search-form__input' type="text" name="search" value={film} onChange={(e) => setFilm(e.target.value)} />
         <button className='search-form__button' type="submit">
           <img className='search-form__img' src={searchPath} alt="лупа иконка поиска" />
         </button>

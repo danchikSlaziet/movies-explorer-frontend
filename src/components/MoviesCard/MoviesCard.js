@@ -20,7 +20,7 @@ export default function MoviesCard({text, image, duration, like, inSavedMovies, 
 
   return (
     <div className='film-banner'>
-      <img className='film-banner__img' src={image} alt="фотокарточка фильма" />
+      <img className='film-banner__img' src={image} alt={`фотокарточка фильма ${text}`}/>
       <div className='film-banner__wrapper'>
         <div className='film-banner__info'>
           <span className='film-banner__name'>
@@ -31,7 +31,7 @@ export default function MoviesCard({text, image, duration, like, inSavedMovies, 
           </span>
         </div>
         <button onClick={buttonHandler} className='film-banner__button' type="button">
-          <img className='film-banner__svg' src={inSavedMovies ? deleteIconPath : like ? chosenPath : notChosenPath} alt="кнопка добавить в избранное" />
+          <img className='film-banner__svg' src={inSavedMovies ? deleteIconPath : like ? chosenPath : notChosenPath} alt={inSavedMovies ? 'кнопка удалить из избранного' : 'кнопка добавить в избранное'} />
         </button>
       </div>
     </div>

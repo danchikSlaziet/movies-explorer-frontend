@@ -14,21 +14,22 @@ export default function Login() {
   }
 
   return (
-    <section className='login page__login'>
-      <img onClick={logoHandler} className='login__logo' src={logoPath} alt="изображение логотипа" />
-      <p className='login__text'>
-        Рады видеть!
-      </p>
-      <AuthForm mail={mail} setMail={setMail} password={password} setPassword={setPassword} />
-      <button className='login__button' type="button">Войти</button>
-      <div className='login__link-wrapper'>
-        <span className='login__question'>
-          Ещё не зарегистрированы?
-        </span>
-        <NavLink className='login__link' to='/signup'>
-          Регистрация
-        </NavLink>
-      </div>
-    </section>
+    <main>
+      <section className='login page__login'>
+        <img onClick={logoHandler} className='login__logo' src={logoPath} alt="изображение логотипа" />
+        <p className='login__text'>
+          Рады видеть!
+        </p>
+        <AuthForm buttonText={'Войти'} mail={mail} setMail={setMail} password={password} setPassword={setPassword} />
+        <div className='login__link-wrapper'>
+          <span className='login__question'>
+            Ещё не зарегистрированы?
+          </span>
+          <NavLink className='login__link' to='/signup'>
+            Регистрация
+          </NavLink>
+        </div>
+      </section>
+    </main>
   );
 }

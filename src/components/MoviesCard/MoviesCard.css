@@ -34,10 +34,12 @@
   padding: 0;
   border: none;
   background-color: transparent;
+  transition: opacity .24s linear;
 }
 
 .film-banner__button:hover {
   cursor: pointer;
+  opacity: .5;
 }
 
 .film-banner__svg {
