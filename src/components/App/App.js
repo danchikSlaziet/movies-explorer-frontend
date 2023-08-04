@@ -80,7 +80,7 @@ export default function App() {
               <Main />
               <Footer />
             </>} />
-          <Route path='/movies' element={<ProtectedRoute element={Movies} loggedIn={loggedIn} profileHandler={profileHandler} />}/>
+          <Route path='/movies' element={<ProtectedRoute setIsActivePreloader={setIsActivePreloader} element={Movies} loggedIn={loggedIn} profileHandler={profileHandler} />}/>
           <Route path='/saved-movies' element={<ProtectedRoute element={SavedMovies} loggedIn={loggedIn} profileHandler={profileHandler} />}/>
           <Route path='/profile' element={<ProtectedRoute element={Profile} setCurrentUser={setCurrentUser} outHandler={apiSignOut} loggedIn={loggedIn}/>}/>
           <Route path='/signup' element={<Register changeLogged={changeLogged}/>} />

@@ -62,3 +62,7 @@
   cursor: pointer;
   opacity: .5;
 }
+
+.movies__button_no-visible {
+  display: none;
+}

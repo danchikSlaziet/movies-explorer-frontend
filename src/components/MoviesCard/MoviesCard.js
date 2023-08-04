@@ -20,14 +20,14 @@ export default function MoviesCard({text, image, duration, like, inSavedMovies, 
 
   return (
     <div className='film-banner'>
-      <img className='film-banner__img' src={image} alt={`фотокарточка фильма ${text}`}/>
+      <img className='film-banner__img' src={`https://api.nomoreparties.co/${image}`} alt={`фотокарточка фильма ${text}`}/>
       <div className='film-banner__wrapper'>
         <div className='film-banner__info'>
           <span className='film-banner__name'>
             {text}
           </span>
           <span className='film-banner__duration'>
-            {duration}
+            {duration <= 60 ? `${duration}м` : `${Math.floor(duration/60)}ч${duration%60}м` }
           </span>
         </div>
         <button onClick={buttonHandler} className='film-banner__button' type="button">
