@@ -4,15 +4,24 @@ import Header from '../Header/Header';
 import Main from '../Main/Main';
 import './App.css';
 import Movies from '../Movies/Movies';
-import accountPath from '../../images/account-svg.svg';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
 import NotFound from '../NotFound/NotFound';
+import { useEffect, useState } from 'react';
+import mainApi from '../../utils/MainApi';
+import Preloader from '../Preloader/Preloader';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 export default function App() {
   const navigate = useNavigate();
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  const [isActivePreloader, setIsActivePreloader] = useState(false);
+  const [currentUser, setCurrentUser] = useState({name: '', email: '', userID: ''});
+ 
   function profileHandler() {
     navigate('/profile');
   }
@@ -22,61 +31,64 @@ export default function App() {
   function registerHandler() {
     navigate('/signup');
   }
+  function changeLogged() {
+    setLoggedIn(!loggedIn);
+  }
+  function apiSignOut() {
+    mainApi.signOut()
+      .then((data) => {
+        console.log(data);
+        navigate('/');
+        changeLogged();
+      })
+      .catch(err => console.log(err));
+  }
+
+  function checkToken() {
+    mainApi.getInfoAboutMe()
+      .then((data) => {
+        changeLogged();
+        navigate('/movies');
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    mainApi.getInfoAboutMe()
+      .then((data) => {
+        setCurrentUser({name: data.name, email: data.mail, userID: data.userID});
+      })
+      .catch((err) => console.log(err));
+  }, [loggedIn, currentUser.name, currentUser.email]);
+
+  useEffect(() => {
+    // этот эффект для того, чтобы при перезагрузке главной страницы у залогиненного пользователя был loggedIn = true;
+    mainApi.getInfoAboutMe()
+      .then((data) => {
+        changeLogged();
+      })
+      .catch((err) => console.log(err));
+  }, [])
 
   return (
-    <>
-      <Routes>
-        <Route path='/' element={
-          <>
-            <Header profileHandler={profileHandler} inMain={true} background='bg-blue'>
-              <button onClick={registerHandler} className='header__button header__button_type_registration' type="button">Регистрация</button>
-              <button onClick={loginHandler} className='header__button header__button_type_login' type="button">Войти</button>
-            </Header>
-            <Main />
-            <Footer />
-          </>} />
-        <Route path='/movies' element={
-          <>
-            <Header profileHandler={profileHandler} background='bgHeader-logged'>
-              <button onClick={profileHandler} className='header__account account' type="button">
-                <span className='account__text'>
-                  Аккаунт
-                </span>
-                <img className='account__img' src={accountPath} alt="svg изображение кнопки профиля, белый силуэт на черном фоне" />
-              </button>
-            </Header>
-            <Movies />
-            <Footer />
-          </>} />
-        <Route path='/saved-movies' element={
-          <>
-            <Header profileHandler={profileHandler} background='bgHeader-logged'>
-              <button onClick={profileHandler} className='header__account account' type="button">
-                <span className='account__text'>
-                  Аккаунт
-                </span>
-                <img className='account__img' src={accountPath} alt="svg изображение кнопки профиля, белый силуэт на черном фоне" />
-              </button>
-            </Header>
-            <SavedMovies />
-            <Footer />
-          </>} />
-          <Route path='/profile' element={
-          <>
-            <Header profileHandler={profileHandler} background='bgHeader-logged'>
-              <button onClick={profileHandler} className='header__account account' type="button">
-                <span className='account__text'>
-                  Аккаунт
-                </span>
-                <img className='account__img' src={accountPath} alt="svg изображение кнопки профиля, белый силуэт на черном фоне" />
-              </button>
-            </Header>
-            <Profile />
-          </>} />
-          <Route path='/signup' element={<Register />} />
-          <Route path='/signin' element={<Login />} />
+    <CurrentUserContext.Provider value={currentUser}>
+      <>
+        <Routes>
+          <Route path='/' element={
+            <>
+            <Header loginHandler={loginHandler} registerHandler={registerHandler} inMain={true} profileHandler={profileHandler} loggedIn={loggedIn} />
+              <Main />
+              <Footer />
+            </>} />
+          <Route path='/movies' element={<ProtectedRoute element={Movies} loggedIn={loggedIn} profileHandler={profileHandler} />}/>
+          <Route path='/saved-movies' element={<ProtectedRoute element={SavedMovies} loggedIn={loggedIn} profileHandler={profileHandler} />}/>
+          <Route path='/profile' element={<ProtectedRoute element={Profile} setCurrentUser={setCurrentUser} outHandler={apiSignOut} loggedIn={loggedIn}/>}/>
+          <Route path='/signup' element={<Register changeLogged={changeLogged}/>} />
+          <Route path='/signin' element={<Login checkToken={checkToken} changeLogged={changeLogged}/>} />
           <Route path='/*' element={<NotFound />} />
-      </Routes>
-    </>
+        </Routes>
+        <Preloader isVisible={isActivePreloader} />
+      </>
+    </CurrentUserContext.Provider>
   );
 }

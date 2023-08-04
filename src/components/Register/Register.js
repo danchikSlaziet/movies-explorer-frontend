@@ -3,16 +3,39 @@ import './Register.css';
 import logoPath from '../../images/logo.svg';
 import AuthForm from '../AuthForm/AuthForm';
 import { useState } from 'react';
+import mainApi from '../../utils/MainApi';
 
-export default function Register() {
+export default function Register({changeLogged}) {
   const navigate = useNavigate();
-  const [name, setName] = useState('');
-  const [mail, setMail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formValue, setFormValue] = useState({email: '', password: '', name: ''});
+  const [errors, setErrors] = useState({});
+  const [isValid, setIsValid] = useState(false);
 
   function logoHandler() {
     navigate('/');
   }
+
+  function apiRegister({email, password, name}) {
+    mainApi.register({name, email, password})
+      .then((data) => {
+        navigate('/movies');
+        changeLogged();
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err.includes('400')) {
+          setErrors({...errors, authErr: 'Поле почты не прошло валидацию на сервере' });
+        }
+        else if (err.includes('409')) {
+          setErrors({...errors, authErr: 'Пользователь с такой почтой уже существует' });
+        }
+      });
+  }
+  const handleChange = (e) => {
+    const name = e.target.name;
+    setErrors({...errors, [name]: e.target.validationMessage });
+    setIsValid(e.target.closest("form").checkValidity());
+  };
 
   return (
     <main>
@@ -21,17 +44,7 @@ export default function Register() {
         <h1 className='register__text'>
           Добро пожаловать!
         </h1>
-        <AuthForm buttonText={"Зарегистрироваться"} mail={mail} setMail={setMail} password={password} setPassword={setPassword}>
-          <div className='auth-form__input-wrapper'>
-            <span className='auth-form__label'>
-              Имя
-            </span>
-            <input minLength={2} maxLength={30} placeholder='Введите имя' required className='auth-form__input auth-form__input_type_name' type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} />
-            <span className='auth-form__error'>
-              {/* Что-то пошло не так... */}
-            </span>
-          </div>
-        </AuthForm>
+        <AuthForm setIsValid={setIsValid} inRegister={true} errorHandler={handleChange} isValid={isValid} errors={errors} setErrors={setErrors} registerHandler={apiRegister} buttonText={"Зарегистрироваться"} formValue={formValue} setFormValue={setFormValue} />
         <div className='register__link-wrapper'>
           <span className='register__question'>
             Уже зарегистрированы?

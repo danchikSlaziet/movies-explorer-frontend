@@ -2,11 +2,17 @@ import { useState } from 'react';
 import './SearchForm.css';
 import searchPath from '../../images/find.svg';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
+import moviesApi from '../../utils/MoviesApi';
 
-export default function SearchForm() {
+export default function SearchForm({setCards}) {
   const [film, setFilm] = useState('');
   function handleSubmit(e) {
     e.preventDefault();
+    moviesApi.getAllMovies()
+      .then((data) => {
+        setCards(data.filter((card) => card.nameRU.toLowerCase().includes(film.toLowerCase()) || card.nameEN.toLowerCase().includes(film.toLowerCase())));
+      })
+      .catch(err => console.log(err));
   }
 
   return (

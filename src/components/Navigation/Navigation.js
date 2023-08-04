@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import './Navigation.css';
 
-export default function Navigation({navInBurger, burgerHandler, inMain}) {
+export default function Navigation({navInBurger, burgerHandler, loggedIn}) {
   return (
     <>
       {navInBurger ? <nav className='burger-menu__nav nav'>
@@ -16,7 +16,7 @@ export default function Navigation({navInBurger, burgerHandler, inMain}) {
             <NavLink onClick={burgerHandler} className={({ isActive }) => (isActive ? "burger-menu__link burger-menu__link_active" : "burger-menu__link")} to='/saved-movies'>Сохранённые фильмы</NavLink>
           </li>
         </ul>
-      </nav> : inMain ? <></> : 
+      </nav> : !loggedIn ? <></> : 
       <nav className='header__nav nav'>
         <ul className='nav__list'>
           <li className='nav__item'>

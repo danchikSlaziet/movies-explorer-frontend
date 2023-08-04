@@ -2,16 +2,48 @@ import './Login.css';
 import logoPath from '../../images/logo.svg';
 import { NavLink, useNavigate } from 'react-router-dom';
 import AuthForm from '../AuthForm/AuthForm';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import mainApi from '../../utils/MainApi';
 
-export default function Login() {
+export default function Login({changeLogged, checkToken}) {
   const navigate = useNavigate();
-  const [mail, setMail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formValue, setFormValue] = useState({email: '', password: ''});
+  const [errors, setErrors] = useState({});
+  const [isValid, setIsValid] = useState(false);
+
+  const handleChange = (e) => {
+    const name = e.target.name;
+    setErrors({...errors, [name]: e.target.validationMessage });
+    setIsValid(e.target.closest("form").checkValidity());
+  };
+
+  function apiLogin({email, password}) {
+    mainApi.login({email, password})
+      .then((data) => {
+        changeLogged();
+        navigate('/movies');
+        })
+      .catch((err) => {
+        console.log(err);
+        if (err.includes('400')) {
+          setErrors({...errors, authErr: 'Поле почты не прошло валидацию на сервере' });
+        }
+        else if (err.includes('409')) {
+          setErrors({...errors, authErr: 'Логин или пароль неверны' });
+        }
+        else if (err.includes('401')) {
+          setErrors({...errors, authErr: 'Пользователь не найден' });
+        }
+      });
+  };
 
   function logoHandler() {
     navigate('/');
   }
+
+  useEffect(() => {
+    checkToken();
+  }, []);
 
   return (
     <main>
@@ -20,7 +52,7 @@ export default function Login() {
         <p className='login__text'>
           Рады видеть!
         </p>
-        <AuthForm buttonText={'Войти'} mail={mail} setMail={setMail} password={password} setPassword={setPassword} />
+        <AuthForm errorHandler={handleChange} isValid={isValid} errors={errors} loginHandler={apiLogin} buttonText={'Войти'} formValue={formValue} setFormValue={setFormValue} />
         <div className='login__link-wrapper'>
           <span className='login__question'>
             Ещё не зарегистрированы?

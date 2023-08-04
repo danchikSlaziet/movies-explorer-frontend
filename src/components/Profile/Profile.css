@@ -42,6 +42,7 @@
 .profile__info {
   width: 410px;
   margin: 0 auto 220px auto;
+  position: relative;
 }
 
 @media screen and (max-width: 1279.98px) {
@@ -55,6 +56,26 @@
     width: 260px;
     margin-bottom: 379px;
   }
+}
+
+.profile__error {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+  color: #EE3465;
+  font-size: 10px;
+  line-height: normal;
+  min-height: 12px;
+}
+
+.profile__error_type_name {
+  top: -50px;
+}
+
+.profile__error_type_email {
+  bottom: -50px;
 }
 
 .profile__field {
@@ -95,7 +116,12 @@
   margin-bottom: 17px;
 }
 
+.profile__wrapper_not-valid:not(:last-child) {
+  border-bottom-color: #EE3465;
+}
+
 .profile__buttons {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -113,6 +139,28 @@
   .profile__buttons {
     margin-bottom: 40px;
   }
+}
+
+.profile__other-error {
+  position: absolute;
+  display: block;
+  top: -40px;
+  color: #EE3465;
+  font-size: 12px;
+  line-height: normal;
+  min-height: 12px;
+  padding: 0 10px;
+  text-align: center;
+}
+
+.profile__success {
+  position: absolute;
+  display: block;
+  top: -40px;
+  color: #3DDC84;
+  font-size: 12px;
+  line-height: normal;
+  min-height: 12px;
 }
 
 .profile__btn {
@@ -138,6 +186,15 @@
 
 .profile__edit-btn {
   color: #FFF;
+}
+
+.profile__edit-btn_disabled {
+  opacity: .3;
+}
+
+.profile__edit-btn_disabled:hover {
+  opacity: .3;
+  cursor: initial;
 }
 
 .profile__exit-btn {
