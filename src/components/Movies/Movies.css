@@ -3,6 +3,19 @@
   max-width: 1140px;
 }
 
+.search {
+  position: relative;
+}
+
+.search__error {
+  position: absolute;
+  bottom: 10px;
+  text-align: center;
+  width: 100%;
+  color: #EE3465;
+  font-size: 15px;
+}
+
 .page__movies {
   margin-top: 80px;
   margin-bottom: 80px;

@@ -1,15 +1,18 @@
+import { useState } from 'react';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import SearchForm from '../SearchForm/SearchForm';
 import './SavedMovies.css';
 
-export default function SavedMovies() {
+export default function SavedMovies({savedCards, setSavedCards}) {
+  const [isSavedChecked, setIsSavedChecked] = useState(false);
+
   return (
     <main className='saved-movies page__saved-movies auto-width auto-width-movies'>
       <section className='search'>
-        <SearchForm />
+        <SearchForm inMovies={false} isSavedChecked={isSavedChecked} setIsSavedChecked={setIsSavedChecked} savedCards={savedCards} setSavedCards={setSavedCards}/>
       </section>
       <section className='savedMovie-cardList'>
-        <MoviesCardList inSavedMovies={true}/>
+        <MoviesCardList savedCards={savedCards} setSavedCards={setSavedCards} inMovies={false}/>
       </section>
     </main>
   );

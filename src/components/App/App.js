@@ -14,6 +14,7 @@ import mainApi from '../../utils/MainApi';
 import Preloader from '../Preloader/Preloader';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import moviesApi from '../../utils/MoviesApi';
 
 export default function App() {
   const navigate = useNavigate();
@@ -21,6 +22,9 @@ export default function App() {
 
   const [isActivePreloader, setIsActivePreloader] = useState(false);
   const [currentUser, setCurrentUser] = useState({name: '', email: '', userID: ''});
+  const [savedCards, setSavedCards] = useState([]);
+  const [cards, setCards] = useState([]);
+  const [isLikedMovies, setIsLikedMovies] = useState([]);
  
   function profileHandler() {
     navigate('/profile');
@@ -62,12 +66,16 @@ export default function App() {
   }, [loggedIn, currentUser.name, currentUser.email]);
 
   useEffect(() => {
-    // этот эффект для того, чтобы при перезагрузке главной страницы у залогиненного пользователя был loggedIn = true;
+    // эта часть эффекта для того, чтобы при перезагрузке главной страницы у залогиненного пользователя был loggedIn = true;
     mainApi.getInfoAboutMe()
       .then((data) => {
         changeLogged();
       })
       .catch((err) => console.log(err));
+      
+      if (localStorage.getItem('films')) {
+        setCards(JSON.parse(localStorage.getItem('films'))); 
+      }
   }, [])
 
   return (
@@ -80,8 +88,8 @@ export default function App() {
               <Main />
               <Footer />
             </>} />
-          <Route path='/movies' element={<ProtectedRoute setIsActivePreloader={setIsActivePreloader} element={Movies} loggedIn={loggedIn} profileHandler={profileHandler} />}/>
-          <Route path='/saved-movies' element={<ProtectedRoute element={SavedMovies} loggedIn={loggedIn} profileHandler={profileHandler} />}/>
+          <Route path='/movies' element={<ProtectedRoute element={Movies} cards={cards} isLikedMovies={isLikedMovies} setCards={setCards} loggedIn={loggedIn} profileHandler={profileHandler} setIsActivePreloader={setIsActivePreloader} setSavedCards={setSavedCards} savedCards={savedCards} />}/>
+          <Route path='/saved-movies' element={<ProtectedRoute element={SavedMovies} loggedIn={loggedIn} profileHandler={profileHandler} savedCards={savedCards} setSavedCards={setSavedCards} />}/>
           <Route path='/profile' element={<ProtectedRoute element={Profile} setCurrentUser={setCurrentUser} outHandler={apiSignOut} loggedIn={loggedIn}/>}/>
           <Route path='/signup' element={<Register changeLogged={changeLogged}/>} />
           <Route path='/signin' element={<Login checkToken={checkToken} changeLogged={changeLogged}/>} />

@@ -4,7 +4,7 @@ import searchPath from '../../images/find.svg';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import moviesApi from '../../utils/MoviesApi';
 
-export default function SearchForm({setCards, setIsChecked, isChecked, setIsActivePreloader, setSearchError}) {
+export default function SearchForm({inMovies, isSavedChecked, setIsSavedChecked, setIsSearchClick, cards, setCards, setIsChecked, isChecked, setIsActivePreloader, setSearchError, savedCards, setSavedCards}) {
   const [film, setFilm] = useState('');
 
   function setNormalSearch(data) {
@@ -21,46 +21,39 @@ export default function SearchForm({setCards, setIsChecked, isChecked, setIsActi
       setNormalSearch(data);
     }
   }
+
   function handleSubmit(e) {
     e.preventDefault();
-    setIsActivePreloader(true);
-    moviesApi.getAllMovies()
-      .then((data) => filterSearch(data))
+    if (inMovies) {
+      setIsActivePreloader(true);
+      localStorage.setItem('search-value', film);
+      moviesApi.getAllMovies()
+      .then((data) => {
+        filterSearch(data);
+      })
       .catch((err) => {
         console.log(err);
         setSearchError('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
       })
       .finally(() => {
         setIsActivePreloader(false);
+        setIsSearchClick(true);
       });
+    }
+    else {
+      setSavedCards([...savedCards].filter((card) => card.nameRU.toLowerCase().includes(film.toLowerCase()) || card.nameEN.toLowerCase().includes(film.toLowerCase())));
+    }
   }
   useEffect(() => {
-    setIsActivePreloader(true);
-    moviesApi.getAllMovies()
-      .then((data) => {
-        if (isChecked) {
-          if (film === '') {
-            setCards([]);
-          }
-          else {
-            setShortFilmsSearch(data);
-          }
-        }
-        else {
-          if (film === '') {
-            setCards([]);
-          }
-          else {
-            setNormalSearch(data);
-          }
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        setSearchError('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
-      })
-      .finally(() => setIsActivePreloader(false));
-  }, [isChecked])
+    if (inMovies) {
+      localStorage.setItem('films', JSON.stringify(cards));
+    }
+  }, [cards])
+  useEffect(() => {
+    if (inMovies) {
+      setFilm(localStorage.getItem('search-value'));
+    }
+  }, [])
 
   return (
     <form onSubmit={handleSubmit} className='search-form'>
@@ -70,7 +63,7 @@ export default function SearchForm({setCards, setIsChecked, isChecked, setIsActi
           <img className='search-form__img' src={searchPath} alt="лупа иконка поиска" />
         </button>
       </div>
-      <FilterCheckbox setIsChecked={setIsChecked}/>
+      <FilterCheckbox film={film} isSavedChecked={isSavedChecked} setIsSavedChecked={setIsSavedChecked} isChecked={isChecked} setIsChecked={setIsChecked} setIsActivePreloader={setIsActivePreloader} cards={cards} setCards={setCards} savedCards={savedCards} setSavedCards={setSavedCards} setSearchError={setSearchError} inMovies={inMovies}/>
     </form>
   );
 }

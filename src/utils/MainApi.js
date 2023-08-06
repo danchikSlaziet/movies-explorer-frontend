@@ -86,6 +86,67 @@ class MainApi {
     }
     return this._getFetch(url, options);
   }
+
+  getMyMovies() {
+    const url = this._baseUrl + 'movies';
+    const options = {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: 'include',
+    }
+    return this._getFetch(url, options);
+  }
+
+  addNewMovie(
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailerLink,
+    nameRU,
+    nameEN,
+    thumbnail,
+    movieId
+  ) {
+    const url = this._baseUrl + 'movies';
+    const options = {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: 'include',
+      body: JSON.stringify({
+        country: country,
+        director: director,
+        duration: duration,
+        year: year,
+        description: description,
+        image: image,
+        trailerLink: trailerLink,
+        nameRU: nameRU,
+        nameEN: nameEN,
+        thumbnail: thumbnail,
+        movieId: movieId
+      })
+    }
+    return this._getFetch(url, options);
+  }
+
+  deleteMovie(id) {
+    const url = this._baseUrl + 'movies/' + id;
+      const options = {
+        method: 'DELETE',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: 'include',
+      }
+      return this._getFetch(url, options);
+  }
 }
 
 const mainApi = new MainApi({
