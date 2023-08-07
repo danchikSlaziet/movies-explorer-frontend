@@ -14,7 +14,6 @@ import mainApi from '../../utils/MainApi';
 import Preloader from '../Preloader/Preloader';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
-import moviesApi from '../../utils/MoviesApi';
 
 export default function App() {
   const navigate = useNavigate();
@@ -24,7 +23,6 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState({name: '', email: '', userID: ''});
   const [savedCards, setSavedCards] = useState([]);
   const [cards, setCards] = useState([]);
-  const [isLikedMovies, setIsLikedMovies] = useState([]);
  
   function profileHandler() {
     navigate('/profile');
@@ -88,9 +86,9 @@ export default function App() {
               <Main />
               <Footer />
             </>} />
-          <Route path='/movies' element={<ProtectedRoute element={Movies} cards={cards} isLikedMovies={isLikedMovies} setCards={setCards} loggedIn={loggedIn} profileHandler={profileHandler} setIsActivePreloader={setIsActivePreloader} setSavedCards={setSavedCards} savedCards={savedCards} />}/>
+          <Route path='/movies' element={<ProtectedRoute element={Movies} cards={cards} setCards={setCards} loggedIn={loggedIn} profileHandler={profileHandler} setIsActivePreloader={setIsActivePreloader} setSavedCards={setSavedCards} savedCards={savedCards} />}/>
           <Route path='/saved-movies' element={<ProtectedRoute element={SavedMovies} loggedIn={loggedIn} profileHandler={profileHandler} savedCards={savedCards} setSavedCards={setSavedCards} />}/>
-          <Route path='/profile' element={<ProtectedRoute element={Profile} setCurrentUser={setCurrentUser} outHandler={apiSignOut} loggedIn={loggedIn}/>}/>
+          <Route path='/profile' element={<ProtectedRoute element={Profile} changeLogged={changeLogged} setCurrentUser={setCurrentUser} outHandler={apiSignOut} loggedIn={loggedIn}/>}/>
           <Route path='/signup' element={<Register changeLogged={changeLogged}/>} />
           <Route path='/signin' element={<Login checkToken={checkToken} changeLogged={changeLogged}/>} />
           <Route path='/*' element={<NotFound />} />

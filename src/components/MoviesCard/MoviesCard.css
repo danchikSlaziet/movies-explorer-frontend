@@ -9,6 +9,11 @@
   border-radius: 10px;
 }
 
+.movie-cards__link {
+  text-decoration: none;
+  color: inherit;
+}
+
 .film-banner__info {
   display: flex;
   flex-direction: column;
@@ -49,6 +54,10 @@
   .film-banner__img {
     height: 168px;
   }
+}
+
+.film-banner__img:hover {
+  cursor: pointer;
 }
 
 .film-banner__name {

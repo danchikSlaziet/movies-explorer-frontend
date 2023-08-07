@@ -3,10 +3,9 @@ import notChosenPath from '../../images/not-chosen.svg';
 import chosenPath from '../../images/chosen.svg';
 import deleteIconPath from '../../images/deleteCard.svg';
 import mainApi from '../../utils/MainApi';
+import { NavLink } from 'react-router-dom';
 
-export default function MoviesCard({cardInfo, inMovies, setSavedCards, savedCards, isLikedMovies}) {
-
-
+export default function MoviesCard({cardInfo, inMovies, setSavedCards, savedCards}) {
   function buttonHandler(e) {
     if (inMovies) {
       if (e.target.src.includes('not-chosen')) {
@@ -41,21 +40,23 @@ export default function MoviesCard({cardInfo, inMovies, setSavedCards, savedCard
   }
 
   return (
-    <div className='film-banner'>
-      <img className='film-banner__img' src={inMovies ? `https://api.nomoreparties.co/${cardInfo.image.url}` : `${cardInfo.image}`} alt={`фотокарточка фильма ${cardInfo.nameRU}`}/>
-      <div className='film-banner__wrapper'>
-        <div className='film-banner__info'>
-          <span className='film-banner__name'>
-            {cardInfo.nameRU}
-          </span>
-          <span className='film-banner__duration'>
-            {cardInfo.duration <= 60 ? `${cardInfo.duration}м` : `${Math.floor(cardInfo.duration/60)}ч${cardInfo.duration%60}м` }
-          </span>
+      <div className='film-banner'>
+        <NavLink to={cardInfo.trailerLink} target='blank'>
+          <img className='film-banner__img' src={inMovies ? `https://api.nomoreparties.co/${cardInfo.image.url}` : `${cardInfo.image}`} alt={`фотокарточка фильма ${cardInfo.nameRU}`}/>
+        </NavLink>
+        <div className='film-banner__wrapper'>
+          <div className='film-banner__info'>
+            <span className='film-banner__name'>
+              {cardInfo.nameRU}
+            </span>
+            <span className='film-banner__duration'>
+              {cardInfo.duration <= 60 ? `${cardInfo.duration}м` : `${Math.floor(cardInfo.duration/60)}ч${cardInfo.duration%60}м` }
+            </span>
+          </div>
+          <button onClick={buttonHandler} className='film-banner__button' type="button">
+            <img className='film-banner__svg' src={!inMovies ? deleteIconPath : isLiked() ? chosenPath : notChosenPath} alt={!inMovies ? 'кнопка удалить из избранного' : 'кнопка добавить в избранное'} />
+          </button>
         </div>
-        <button onClick={buttonHandler} className='film-banner__button' type="button">
-          <img className='film-banner__svg' src={!inMovies ? deleteIconPath : isLiked() ? chosenPath : notChosenPath} alt={!inMovies ? 'кнопка удалить из избранного' : 'кнопка добавить в избранное'} />
-        </button>
       </div>
-    </div>
   );
 }

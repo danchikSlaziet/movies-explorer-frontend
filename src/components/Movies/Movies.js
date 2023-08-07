@@ -3,7 +3,7 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import SearchForm from '../SearchForm/SearchForm';
 import './Movies.css';
 
-export default function Movies({setIsActivePreloader, cards, setCards, setSavedCards, savedCards, isLikedMovies}) {
+export default function Movies({setIsActivePreloader, cards, setCards, setSavedCards, savedCards}) {
   const [isChecked, setIsChecked] = useState(false);
   const [searchError, setSearchError] = useState('');
   const [isSearchClick, setIsSearchClick] = useState(false);
@@ -18,7 +18,7 @@ export default function Movies({setIsActivePreloader, cards, setCards, setSavedC
             </div>
           </section>
           <section className='movie-cardList'>
-            <MoviesCardList isLikedMovies={isLikedMovies} setSavedCards={setSavedCards} savedCards={savedCards} inMovies={true} cards={cards} setCards={setCards}/>
+            <MoviesCardList setSavedCards={setSavedCards} savedCards={savedCards} inMovies={true} cards={cards} setCards={setCards}/>
           </section>
         </main>
   );

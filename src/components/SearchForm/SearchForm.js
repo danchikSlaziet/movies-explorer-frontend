@@ -45,15 +45,33 @@ export default function SearchForm({inMovies, isSavedChecked, setIsSavedChecked,
     }
   }
   useEffect(() => {
-    if (inMovies) {
+    if (inMovies && localStorage.getItem('films')) {
       localStorage.setItem('films', JSON.stringify(cards));
     }
   }, [cards])
   useEffect(() => {
-    if (inMovies) {
+    if (inMovies && localStorage.getItem('search-value')) {
       setFilm(localStorage.getItem('search-value'));
     }
+    else {
+      setFilm('');
+      inMovies && setCards([]);
+      inMovies &&  setTimeout(seterror, 300)
+    }
   }, [])
+
+  function seterror() {
+    setSearchError('Нужно ввести ключевое слово')
+  }
+
+  useEffect(() => {
+    if (film  === '') {
+      inMovies && setTimeout(seterror, 300)
+    }
+    else {
+      inMovies && setSearchError('');
+    }
+  })
 
   return (
     <form onSubmit={handleSubmit} className='search-form'>

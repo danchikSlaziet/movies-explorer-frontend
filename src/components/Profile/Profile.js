@@ -3,7 +3,7 @@ import mainApi from '../../utils/MainApi';
 import './Profile.css';
 import { useContext, useState } from 'react';
 
-export default function Profile({outHandler, setCurrentUser}) {
+export default function Profile({outHandler, setCurrentUser, changeLogged}) {
   const userInfo = useContext(CurrentUserContext);
   const [isInputConfig, setIsInputConfig] = useState({name: userInfo.name, mail: userInfo.email, userId: userInfo.userID, isDisabled: true, activeClass: ''});
   const [isType, setIsType] = useState('button');
@@ -40,6 +40,8 @@ export default function Profile({outHandler, setCurrentUser}) {
 
   function exitHandler() {
     outHandler();
+    localStorage.clear();
+    changeLogged();
   }
 
   function editHandler(e) {

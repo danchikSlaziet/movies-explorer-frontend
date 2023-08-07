@@ -20,6 +20,13 @@ export default function Register({changeLogged}) {
       .then((data) => {
         navigate('/movies');
         changeLogged();
+        // чтобы после регистрации при обновлении страницы не пришлось логиниться
+        mainApi.login({email, password})
+          .then((data) => {
+            changeLogged();
+            navigate('/movies');
+            })
+          .catch((err) => console.log(err));
       })
       .catch((err) => {
         console.log(err);
