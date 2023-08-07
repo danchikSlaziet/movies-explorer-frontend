@@ -150,6 +150,6 @@ class MainApi {
 }
 
 const mainApi = new MainApi({
-  baseUrl: 'https://api.movies-explorer.nomoredomains.xyz',
+  baseUrl: 'https://api.movies-explorer.nomoredomains.xyz/',
 });
 export default mainApi;
