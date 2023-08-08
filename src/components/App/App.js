@@ -52,7 +52,9 @@ export default function App() {
         changeLogged();
         navigate('/movies');
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {
@@ -69,7 +71,9 @@ export default function App() {
       .then((data) => {
         changeLogged();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+      });
       
       if (localStorage.getItem('films')) {
         setCards(JSON.parse(localStorage.getItem('films'))); 

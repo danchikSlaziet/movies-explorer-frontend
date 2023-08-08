@@ -41,7 +41,6 @@ export default function Profile({outHandler, setCurrentUser, changeLogged}) {
   function exitHandler() {
     outHandler();
     localStorage.clear();
-    changeLogged();
   }
 
   function editHandler(e) {
