@@ -16,7 +16,7 @@ export default function FilterCheckbox({isChecked, setIsChecked, isSavedChecked,
   }, [isChecked])
 
   function handleChange(e) {
-    if (inMovies) {
+    if (inMovies && film) {
       localStorage.setItem('checkbox', e.target.checked);
       setIsChecked(e.target.checked);
       setIsActivePreloader(true);
