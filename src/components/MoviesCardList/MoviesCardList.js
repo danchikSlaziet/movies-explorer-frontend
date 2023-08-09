@@ -57,11 +57,12 @@ export default function MoviesCardList({inMovies, setCards, cards, savedCards, s
     }
     else if (getCardsforSize() === 5) {
       setInitialIndex(initialIndex + 2);
-      if (cards.length - initialIndex < 1) {
+      console.log({'cards length': cards.length, 'initial index': initialIndex})
+      if (cards.length - initialIndex <= 2) {
         setButtonClass('movies__button movies__button_no-visible');
       }
       else {
-        setButtonClass('movies__button')
+        setButtonClass('movies__button');
       }
     }
   };
@@ -78,18 +79,18 @@ export default function MoviesCardList({inMovies, setCards, cards, savedCards, s
         setButtonClass('movies__button movies__button_no-visible');
       }
       else {
-        setButtonClass('movies__button')
+        setButtonClass('movies__button');
       }
     }
   }, [getEffectDependencies(), windowWidth]);
 
   useEffect(() => {
     // эффект для того, чтобы после пролистывания всех карточек (нажатием на кнопку ещё) при переходе в другую ориент ничего не ломалось
-    if ( inMovies && cards.length <= initialIndex - 1) {
+    if ( inMovies && cards.length <= initialIndex ) {
       setButtonClass('movies__button movies__button_no-visible');
     }
-    else {
-      setButtonClass('movies__button')
+    else if (inMovies && !(cards.length <= initialIndex )) {
+      setButtonClass('movies__button');
     }
   })
 
