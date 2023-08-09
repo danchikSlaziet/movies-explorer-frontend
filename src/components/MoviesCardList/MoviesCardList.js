@@ -57,7 +57,7 @@ export default function MoviesCardList({inMovies, setCards, cards, savedCards, s
     }
     else if (getCardsforSize() === 5) {
       setInitialIndex(initialIndex + 2);
-      if (cards.length - initialIndex <= 2) {
+      if (cards.length - initialIndex <= 1) {
         setButtonClass('movies__button movies__button_no-visible');
       }
       else {
