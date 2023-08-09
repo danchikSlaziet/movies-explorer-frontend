@@ -38,7 +38,7 @@ export default function FilterCheckbox({isChecked, setIsChecked, isSavedChecked,
           setIsActivePreloader(false);
         });
   }
-  else {
+  else if (!inMovies && film) {
     setIsSavedChecked(e.target.checked);
       mainApi.getMyMovies()
         .then((data) => {
