@@ -93,7 +93,7 @@ export default function App() {
           <Route path='/movies' element={<ProtectedRoute element={Movies} cards={cards} setCards={setCards} loggedIn={loggedIn} profileHandler={profileHandler} setIsActivePreloader={setIsActivePreloader} setSavedCards={setSavedCards} savedCards={savedCards} />}/>
           <Route path='/saved-movies' element={<ProtectedRoute element={SavedMovies} loggedIn={loggedIn} profileHandler={profileHandler} savedCards={savedCards} setSavedCards={setSavedCards} />}/>
           <Route path='/profile' element={<ProtectedRoute element={Profile} changeLogged={changeLogged} setCurrentUser={setCurrentUser} outHandler={apiSignOut} loggedIn={loggedIn}/>}/>
-          <Route path='/signup' element={<Register changeLogged={changeLogged}/>} />
+          <Route path='/signup' element={<Register checkToken={checkToken} changeLogged={changeLogged} setCurrentUser={setCurrentUser} />} />
           <Route path='/signin' element={<Login checkToken={checkToken} changeLogged={changeLogged}/>} />
           <Route path='/*' element={<NotFound />} />
         </Routes>

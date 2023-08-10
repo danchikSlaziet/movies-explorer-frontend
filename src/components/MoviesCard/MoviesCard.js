@@ -26,7 +26,9 @@ export default function MoviesCard({cardInfo, inMovies, setSavedCards, savedCard
     else {
       mainApi.deleteMovie(cardInfo.movieId)
         .then((data) => {
-          setSavedCards(savedCards.filter(c => c.movieId !== data.movieId))
+          setSavedCards(savedCards.filter((c) => {
+            return c.movieId !== data.movieId;
+          }))
         })
         .catch(err => console.log(err));
     }

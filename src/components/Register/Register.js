@@ -2,10 +2,10 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import './Register.css';
 import logoPath from '../../images/logo.svg';
 import AuthForm from '../AuthForm/AuthForm';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import mainApi from '../../utils/MainApi';
 
-export default function Register({changeLogged}) {
+export default function Register({changeLogged, checkToken, setCurrentUser}) {
   const navigate = useNavigate();
   const [formValue, setFormValue] = useState({email: '', password: '', name: ''});
   const [errors, setErrors] = useState({});
@@ -18,15 +18,14 @@ export default function Register({changeLogged}) {
   function apiRegister({email, password, name}) {
     mainApi.register({name, email, password})
       .then((data) => {
-        navigate('/movies');
-        changeLogged();
         // чтобы после регистрации при обновлении страницы не пришлось логиниться
         mainApi.login({email, password})
-          .then((data) => {
-            changeLogged();
-            navigate('/movies');
-            })
-          .catch((err) => console.log(err));
+        .then((data) => {
+          setCurrentUser({name: name, email: email, userID: data.userID});
+          navigate('/movies');
+          changeLogged();
+        })
+        .catch((err) => console.log(err));
       })
       .catch((err) => {
         console.log(err);
@@ -43,6 +42,10 @@ export default function Register({changeLogged}) {
     setErrors({...errors, [name]: e.target.validationMessage });
     setIsValid(e.target.closest("form").checkValidity());
   };
+
+  useEffect(() => {
+    checkToken();
+  }, []);
 
   return (
     <main>
