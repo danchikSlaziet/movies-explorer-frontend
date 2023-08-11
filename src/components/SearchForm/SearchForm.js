@@ -3,6 +3,7 @@ import './SearchForm.css';
 import searchPath from '../../images/find.svg';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import moviesApi from '../../utils/MoviesApi';
+import mainApi from '../../utils/MainApi';
 
 export default function SearchForm({inMovies, isSavedChecked, setIsSavedChecked, setIsSearchClick, cards, setCards, setIsChecked, isChecked, setIsActivePreloader, setSearchError, savedCards, setSavedCards}) {
   const [film, setFilm] = useState('');
@@ -41,7 +42,9 @@ export default function SearchForm({inMovies, isSavedChecked, setIsSavedChecked,
       });
     }
     else {
-      setSavedCards([...savedCards].filter((card) => card.nameRU.toLowerCase().includes(film.toLowerCase()) || card.nameEN.toLowerCase().includes(film.toLowerCase())));
+      mainApi.getMyMovies()
+        .then(data => setSavedCards(data.filter((card) => card.nameRU.toLowerCase().includes(film.toLowerCase()) || card.nameEN.toLowerCase().includes(film.toLowerCase()))))
+        .catch(err => console.log(err));
     }
   }
   useEffect(() => {
