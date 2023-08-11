@@ -51,6 +51,18 @@ export default function FilterCheckbox({isChecked, setIsChecked, isSavedChecked,
         })
         .catch(err => console.log(err))
   }
+  else if (!inMovies && !film) {
+    setIsSavedChecked(e.target.checked);
+    mainApi.getMyMovies()
+      .then((data) => {
+        if (!isSavedChecked) {
+          setSavedCards(data.filter((card) => card.duration <= '40'));
+        }
+        else {
+          setSavedCards(data);
+        }
+      })
+  }
 }
 
   return (
