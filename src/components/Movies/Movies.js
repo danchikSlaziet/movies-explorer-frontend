@@ -14,7 +14,6 @@ export default function Movies({copyCards, setCopyCards, setIsActivePreloader, c
             <SearchForm searchClick={searchClick} setSearchClick={setSearchClick} copyCards={copyCards} setCopyCards={setCopyCards} inMovies={true} setSearchError={setSearchError} setIsActivePreloader={setIsActivePreloader} setIsChecked={setIsChecked} isChecked={isChecked} setCards={setCards} cards={cards}/>
             <div className='search__error'>
               {searchError}
-              {cards.length === 0 ? 'Ничего не найдено.' : ''}
             </div>
           </section>
           <section className='movie-cardList'>
