@@ -5,7 +5,7 @@ import AuthForm from '../AuthForm/AuthForm';
 import { useEffect, useState } from 'react';
 import mainApi from '../../utils/MainApi';
 
-export default function Register({changeLogged, checkToken, setCurrentUser}) {
+export default function Register({setLoggedIn, checkToken, setCurrentUser}) {
   const navigate = useNavigate();
   const [formValue, setFormValue] = useState({email: '', password: '', name: ''});
   const [errors, setErrors] = useState({});
@@ -22,17 +22,14 @@ export default function Register({changeLogged, checkToken, setCurrentUser}) {
         mainApi.login({email, password})
         .then((data) => {
           setCurrentUser({name: name, email: email, userID: data.userID});
+          setLoggedIn(true);
           navigate('/movies');
-          changeLogged();
         })
         .catch((err) => console.log(err));
       })
       .catch((err) => {
         console.log(err);
-        if (err.includes('400')) {
-          setErrors({...errors, authErr: 'Поле почты не прошло валидацию на сервере' });
-        }
-        else if (err.includes('409')) {
+        if (err.includes('409')) {
           setErrors({...errors, authErr: 'Пользователь с такой почтой уже существует' });
         }
       });
@@ -54,7 +51,7 @@ export default function Register({changeLogged, checkToken, setCurrentUser}) {
         <h1 className='register__text'>
           Добро пожаловать!
         </h1>
-        <AuthForm setIsValid={setIsValid} inRegister={true} errorHandler={handleChange} isValid={isValid} errors={errors} setErrors={setErrors} registerHandler={apiRegister} buttonText={"Зарегистрироваться"} formValue={formValue} setFormValue={setFormValue} />
+        <AuthForm inRegister={true} errorHandler={handleChange} isValid={isValid} setIsValid={setIsValid} errors={errors} setErrors={setErrors} registerHandler={apiRegister} buttonText={"Зарегистрироваться"} formValue={formValue} setFormValue={setFormValue} />
         <div className='register__link-wrapper'>
           <span className='register__question'>
             Уже зарегистрированы?

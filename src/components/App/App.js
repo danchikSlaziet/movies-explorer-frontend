@@ -23,6 +23,8 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState({name: '', email: '', userID: ''});
   const [savedCards, setSavedCards] = useState([]);
   const [cards, setCards] = useState([]);
+  const [copyCards, setCopyCards] = useState([]);
+  const [copyLikedCards, setCopyLikedCards] = useState([]);
  
   function profileHandler() {
     navigate('/profile');
@@ -33,15 +35,13 @@ export default function App() {
   function registerHandler() {
     navigate('/signup');
   }
-  function changeLogged() {
-    setLoggedIn(!loggedIn);
-  }
+
   function apiSignOut() {
     mainApi.signOut()
       .then((data) => {
         console.log(data);
         navigate('/');
-        changeLogged();
+        setLoggedIn(false);
       })
       .catch(err => console.log(err));
   }
@@ -49,7 +49,7 @@ export default function App() {
   function checkToken() {
     mainApi.getInfoAboutMe()
       .then((data) => {
-        changeLogged();
+        setLoggedIn(true);
         navigate('/movies');
       })
       .catch((err) => {
@@ -58,25 +58,34 @@ export default function App() {
   };
 
   useEffect(() => {
+    console.log(loggedIn);
+  })
+
+  useEffect(() => {
     mainApi.getInfoAboutMe()
       .then((data) => {
         setCurrentUser({name: data.name, email: data.mail, userID: data.userID});
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setLoggedIn(false);
+      });
   }, [loggedIn, currentUser.name, currentUser.email]);
 
   useEffect(() => {
     // эта часть эффекта для того, чтобы при перезагрузке главной страницы у залогиненного пользователя был loggedIn = true;
     mainApi.getInfoAboutMe()
       .then((data) => {
-        changeLogged();
+        setLoggedIn(true);
       })
       .catch((err) => {
         console.log(err);
+        setLoggedIn(false);
       });
       
       if (localStorage.getItem('films')) {
-        setCards(JSON.parse(localStorage.getItem('films'))); 
+        setCopyCards(JSON.parse(localStorage.getItem('films')));
+        localStorage.getItem('checkbox') === 'true' ? setCards(JSON.parse(localStorage.getItem('films')).filter((card) => card.duration <= '40' && (card.nameRU.toLowerCase().includes(localStorage.getItem('search-value').toLowerCase()) || card.nameEN.toLowerCase().includes(localStorage.getItem('search-value').toLowerCase())))) : setCards(JSON.parse(localStorage.getItem('films')));
       }
   }, [])
 
@@ -90,11 +99,11 @@ export default function App() {
               <Main />
               <Footer />
             </>} />
-          <Route path='/movies' element={<ProtectedRoute element={Movies} cards={cards} setCards={setCards} loggedIn={loggedIn} profileHandler={profileHandler} setIsActivePreloader={setIsActivePreloader} setSavedCards={setSavedCards} savedCards={savedCards} />}/>
-          <Route path='/saved-movies' element={<ProtectedRoute element={SavedMovies} loggedIn={loggedIn} profileHandler={profileHandler} savedCards={savedCards} setSavedCards={setSavedCards} />}/>
-          <Route path='/profile' element={<ProtectedRoute element={Profile} changeLogged={changeLogged} setCurrentUser={setCurrentUser} outHandler={apiSignOut} loggedIn={loggedIn}/>}/>
-          <Route path='/signup' element={<Register checkToken={checkToken} changeLogged={changeLogged} setCurrentUser={setCurrentUser} />} />
-          <Route path='/signin' element={<Login checkToken={checkToken} changeLogged={changeLogged}/>} />
+          <Route path='/movies' element={<ProtectedRoute copyCards={copyCards} setCopyCards={setCopyCards} element={Movies} cards={cards} setCards={setCards} loggedIn={loggedIn} profileHandler={profileHandler} setIsActivePreloader={setIsActivePreloader} setSavedCards={setSavedCards} savedCards={savedCards} />}/>
+          <Route path='/saved-movies' element={<ProtectedRoute copyLikedCards={copyLikedCards} setCopyLikedCards={setCopyLikedCards} element={SavedMovies} loggedIn={loggedIn} profileHandler={profileHandler} savedCards={savedCards} setSavedCards={setSavedCards} />}/>
+          <Route path='/profile' element={<ProtectedRoute element={Profile} setCurrentUser={setCurrentUser} outHandler={apiSignOut} loggedIn={loggedIn}/>}/>
+          <Route path='/signup' element={<Register checkToken={checkToken} setLoggedIn={setLoggedIn} setCurrentUser={setCurrentUser} />} />
+          <Route path='/signin' element={<Login checkToken={checkToken} setLoggedIn={setLoggedIn}/>} />
           <Route path='/*' element={<NotFound />} />
         </Routes>
         <Preloader isVisible={isActivePreloader} />

@@ -3,7 +3,7 @@ import mainApi from '../../utils/MainApi';
 import './Profile.css';
 import { useContext, useState } from 'react';
 
-export default function Profile({outHandler, setCurrentUser, changeLogged}) {
+export default function Profile({outHandler, setCurrentUser}) {
   const userInfo = useContext(CurrentUserContext);
   const [isInputConfig, setIsInputConfig] = useState({name: userInfo.name, mail: userInfo.email, userId: userInfo.userID, isDisabled: true, activeClass: ''});
   const [isType, setIsType] = useState('button');
@@ -20,10 +20,7 @@ export default function Profile({outHandler, setCurrentUser, changeLogged}) {
           console.log(err);
           setIsSuccess(false);
           setIsInputConfig({...isInputConfig, name: userInfo.name, mail: userInfo.email});
-          if (err.includes('400')) {
-            setErrors({...errors, otherErr: 'Поле почты не прошло валидацию на сервере' });
-          }
-          else if (err.includes('409')) {
+          if (err.includes('409')) {
             setErrors({...errors, otherErr: 'Пользователь с такой почтой уже существует' });
           }
         });
@@ -67,7 +64,12 @@ export default function Profile({outHandler, setCurrentUser, changeLogged}) {
   };
 
   const isNameValid = (str) => /^[а-яА-Яa-zA-ZЁёәіңғүұқөһӘІҢҒҮҰҚӨҺ\s-]*$/.test(str);
+  const isEmailValid = ( email ) => {
+    const expression =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+    return expression.test( String(email).toLowerCase() );
+  }
 
   return (
     <main>
@@ -91,6 +93,9 @@ export default function Profile({outHandler, setCurrentUser, changeLogged}) {
                   setErrors({...errors, name: 'Поле имени может содержать только латиницу, кириллицу, пробел или дефис.'});
                   setIsValid(false);
                 }
+                if (!isEmailValid(isInputConfig.mail)) {
+                  setIsValid(false);
+                }
               }}/>
             </div>
             <div className='profile__wrapper'>
@@ -103,6 +108,10 @@ export default function Profile({outHandler, setCurrentUser, changeLogged}) {
               <input name='email' required type='email' placeholder='введите почту' className={`profile__mail profile__input ${isInputConfig.activeClass}`} value={isInputConfig.mail} disabled={isInputConfig.isDisabled} onChange={(e) => {
                 setIsInputConfig({...isInputConfig, mail: e.target.value});
                 handleChange(e);
+                if (!isEmailValid(e.target.value)) {
+                  setErrors({...errors, email: 'Введите настоящий адрес почты'});
+                  setIsValid(false);
+                }
                 if (!isNameValid(isInputConfig.name)) {
                   setIsValid(false);
                 }
@@ -113,7 +122,7 @@ export default function Profile({outHandler, setCurrentUser, changeLogged}) {
             <div className={isSuccess ? 'profile__success' : 'profile__other-error'}>
               {isSuccess ? 'Данные успешно сохранены' : errors.otherErr}
             </div>
-            <button onClick={editHandler} className={isValid ? 'profile__edit-btn profile__btn' : 'profile__edit-btn profile__edit-btn_disabled profile__btn'} disabled={!isValid || isDisabledButton()} type={isType}>{isText}</button>
+            <button onClick={editHandler} className={isValid && !isDisabledButton() ? 'profile__edit-btn profile__btn' : 'profile__edit-btn profile__edit-btn_disabled profile__btn'} disabled={!isValid || isDisabledButton()} type={isType}>{isText}</button>
             <button onClick={exitHandler} className='profile__exit-btn profile__btn' type="button">Выйти из аккаунта</button>
           </div>
         </form>

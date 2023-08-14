@@ -4,7 +4,8 @@ import './NotFound.css';
 export default function NotFound() {
   const navigate = useNavigate();
   function backHandler() {
-    navigate(-1);
+    navigate('/');
+    // navigate(-1) работал очень криво, так и не разобрался почему
   }
   return (
     <main>

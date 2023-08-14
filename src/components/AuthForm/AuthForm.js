@@ -1,10 +1,16 @@
 import './AuthForm.css';
 
-export default function AuthForm({setIsValid, formValue, setFormValue, buttonText, loginHandler, registerHandler, errorHandler, isValid, setErrors, errors, inRegister}) {
+export default function AuthForm({ formValue, setFormValue, buttonText, loginHandler, registerHandler, errorHandler, isValid, setIsValid, setErrors, errors, inRegister}) {
 
   let inputWrapperClass = inRegister ? 'auth-form__input-wrapper auth-form__input-wrapper_margin_other': 'auth-form__input-wrapper';
 
   const isNameValid = (str) => /^[а-яА-Яa-zA-ZЁёәіңғүұқөһӘІҢҒҮҰҚӨҺ\s-]*$/.test(str);
+  const isEmailValid = ( email ) => {
+    const expression =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    return expression.test( String(email).toLowerCase() );
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -30,6 +36,9 @@ export default function AuthForm({setIsValid, formValue, setFormValue, buttonTex
             setErrors({...errors, name: 'Поле имени может содержать только латиницу, кириллицу, пробел или дефис.'});
             setIsValid(false);
           }
+          if (!isEmailValid(formValue.email)) {
+            setIsValid(false);
+          }
         }} />
         <span className='auth-form__error'>
           {errors.name}
@@ -42,6 +51,10 @@ export default function AuthForm({setIsValid, formValue, setFormValue, buttonTex
         <input onChange={(e) => {
           setFormValue({...formValue, email: e.target.value});
           errorHandler(e);
+          if (!isEmailValid(e.target.value)) {
+            setErrors({...errors, mail: 'Введите настоящий адрес почты'});
+            setIsValid(false);
+          }
           if (!isNameValid(formValue.name)) {
             setIsValid(false);
           }
@@ -58,6 +71,9 @@ export default function AuthForm({setIsValid, formValue, setFormValue, buttonTex
           setFormValue({...formValue, password: e.target.value});
           errorHandler(e);
           if (!isNameValid(formValue.name)) {
+            setIsValid(false);
+          }
+          if (!isEmailValid(formValue.email)) {
             setIsValid(false);
           }
           }} minLength={8} maxLength={50} placeholder='Введите пароль' required className='auth-form__input' type="password" name="password" value={formValue.password} />

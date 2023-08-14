@@ -9,5 +9,5 @@ export default function ProtectedRoute({element: Component, ...props}) {
       <Header profileHandler={props.profileHandler} loggedIn={props.loggedIn} />
       <Component {...props}/>
       <Footer />
-    </> : <Navigate to="/signin"/>;
+    </> : <Navigate to="/"/>;
 }

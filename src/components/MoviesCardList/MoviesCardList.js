@@ -3,7 +3,7 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 import './MoviesCardList.css';
 import mainApi from '../../utils/MainApi';
 
-export default function MoviesCardList({inMovies, setCards, cards, savedCards, setSavedCards}) {
+export default function MoviesCardList({setIsDeleteClick, isDeleteClick, inMovies, setCards, cards, savedCards, setSavedCards}) {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [initialIndex, setInitialIndex] = useState(getCardsforSize());
   const [buttonClass, setButtonClass] = useState('movies__button');
@@ -99,7 +99,9 @@ export default function MoviesCardList({inMovies, setCards, cards, savedCards, s
       .then((data) => {
         setSavedCards(data);
       })
-      .catch(err => console.log(err))
+      .catch((err) => {
+        console.log(err);
+      })
   }, [])
 
   return (
@@ -108,7 +110,7 @@ export default function MoviesCardList({inMovies, setCards, cards, savedCards, s
         <ul className='movie-cards__list'>
         {inMovies ? [...cards].slice(0, initialIndex).map((elem) => <li key={elem.id} className='movie-cards__item'><MoviesCard cardInfo={elem} inMovies={true} setSavedCards={setSavedCards} savedCards={savedCards}/></li>) 
           : 
-        [...savedCards].map((elem) => <li key={Math.random()} className='movie-cards__item'><MoviesCard cardInfo={elem} inMovies={false} setSavedCards={setSavedCards} savedCards={savedCards} /></li>)}
+      [...savedCards].map((elem) => <li key={Math.random()} className='movie-cards__item'><MoviesCard isDeleteClick={isDeleteClick} setIsDeleteClick={setIsDeleteClick} cardInfo={elem} inMovies={false} setSavedCards={setSavedCards} savedCards={savedCards} /></li>)}
         </ul>
       </div>
       {!inMovies ? <></> : cards.length === 0 ? <></> : <button onClick={buttonHandler} className={buttonClass} type="button">Ещё</button>}

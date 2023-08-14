@@ -5,14 +5,18 @@ import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import moviesApi from '../../utils/MoviesApi';
 import mainApi from '../../utils/MainApi';
 
-export default function SearchForm({inMovies, isSavedChecked, setIsSavedChecked, setIsSearchClick, cards, setCards, setIsChecked, isChecked, setIsActivePreloader, setSearchError, savedCards, setSavedCards}) {
+export default function SearchForm({isDeleteClick, setIsSavedClick, setCopyLikedCards, copyLikedCards, setCopyCards, copyCards, inMovies, isSavedChecked, setIsSavedChecked, cards, setCards, setIsChecked, isChecked, setIsActivePreloader, setSearchError, savedCards, setSavedCards}) {
   const [film, setFilm] = useState('');
 
   function setNormalSearch(data) {
     setCards(data.filter((card) => card.nameRU.toLowerCase().includes(film.toLowerCase()) || card.nameEN.toLowerCase().includes(film.toLowerCase())));
+    setCopyCards(data.filter((card) => card.nameRU.toLowerCase().includes(film.toLowerCase()) || card.nameEN.toLowerCase().includes(film.toLowerCase())));
+    localStorage.setItem('films', JSON.stringify(data.filter((card) => card.nameRU.toLowerCase().includes(film.toLowerCase()) || card.nameEN.toLowerCase().includes(film.toLowerCase()))));
   }
   function setShortFilmsSearch(data) {
     setCards(data.filter((card) => card.duration <= '40' && (card.nameRU.toLowerCase().includes(film.toLowerCase()) || card.nameEN.toLowerCase().includes(film.toLowerCase()))));
+    setCopyCards(data.filter((card) => card.nameRU.toLowerCase().includes(film.toLowerCase()) || card.nameEN.toLowerCase().includes(film.toLowerCase())));
+    localStorage.setItem('films', JSON.stringify(data.filter((card) => card.nameRU.toLowerCase().includes(film.toLowerCase()) || card.nameEN.toLowerCase().includes(film.toLowerCase()))));
   }
   function filterSearch(data) {
     if (isChecked) {
@@ -38,20 +42,29 @@ export default function SearchForm({inMovies, isSavedChecked, setIsSavedChecked,
       })
       .finally(() => {
         setIsActivePreloader(false);
-        setIsSearchClick(true);
       });
     }
     else {
-      mainApi.getMyMovies()
-        .then(data => setSavedCards(data.filter((card) => card.nameRU.toLowerCase().includes(film.toLowerCase()) || card.nameEN.toLowerCase().includes(film.toLowerCase()))))
+      if (isSavedChecked) {
+        mainApi.getMyMovies()
+        .then((data) => {
+          setSavedCards(data.filter((card) => card.duration <= '40' && (card.nameRU.toLowerCase().includes(film.toLowerCase()) || card.nameEN.toLowerCase().includes(film.toLowerCase()))));
+          setCopyLikedCards(data);
+        })
         .catch(err => console.log(err));
+      }
+      else {
+        mainApi.getMyMovies()
+        .then((data) => {
+          setSavedCards(data.filter((card) => (card.nameRU.toLowerCase().includes(film.toLowerCase()) || card.nameEN.toLowerCase().includes(film.toLowerCase()))));
+          setCopyLikedCards(data);
+        })
+        .catch(err => console.log(err));
+      }
+      setIsSavedClick(true);
     }
   }
-  useEffect(() => {
-    if (inMovies && localStorage.getItem('films')) {
-      localStorage.setItem('films', JSON.stringify(cards));
-    }
-  }, [cards])
+
   useEffect(() => {
     if (inMovies && localStorage.getItem('search-value')) {
       setFilm(localStorage.getItem('search-value'));
@@ -63,8 +76,19 @@ export default function SearchForm({inMovies, isSavedChecked, setIsSavedChecked,
     }
   }, [])
 
+
+  useEffect(() => {
+    if (!inMovies) {
+      mainApi.getMyMovies()
+      .then((data) => {
+        setCopyLikedCards(data);
+      })
+      .catch(err => console.log(err));
+    }
+  }, [isDeleteClick])
+
   function seterror() {
-    setSearchError('Нужно ввести ключевое слово')
+    setSearchError('Нужно ввести ключевое слово. ')
   }
 
   useEffect(() => {
@@ -84,7 +108,7 @@ export default function SearchForm({inMovies, isSavedChecked, setIsSavedChecked,
           <img className='search-form__img' src={searchPath} alt="лупа иконка поиска" />
         </button>
       </div>
-      <FilterCheckbox film={film} isSavedChecked={isSavedChecked} setIsSavedChecked={setIsSavedChecked} isChecked={isChecked} setIsChecked={setIsChecked} setIsActivePreloader={setIsActivePreloader} cards={cards} setCards={setCards} savedCards={savedCards} setSavedCards={setSavedCards} setSearchError={setSearchError} inMovies={inMovies}/>
+      <FilterCheckbox setIsSavedClick={setIsSavedClick} copyLikedCards={copyLikedCards} setCopyLikedCards={setCopyLikedCards} setCopyCards={setCopyCards} copyCards={copyCards} film={film} isSavedChecked={isSavedChecked} setIsSavedChecked={setIsSavedChecked} isChecked={isChecked} setIsChecked={setIsChecked} setIsActivePreloader={setIsActivePreloader} cards={cards} setCards={setCards} savedCards={savedCards} setSavedCards={setSavedCards} setSearchError={setSearchError} inMovies={inMovies}/>
     </form>
   );
 }

@@ -5,30 +5,31 @@ import deleteIconPath from '../../images/deleteCard.svg';
 import mainApi from '../../utils/MainApi';
 import { NavLink } from 'react-router-dom';
 
-export default function MoviesCard({cardInfo, inMovies, setSavedCards, savedCards}) {
+export default function MoviesCard({setIsDeleteClick, isDeleteClick, cardInfo, inMovies, setSavedCards, savedCards}) {
   function buttonHandler(e) {
     if (inMovies) {
       if (e.target.src.includes('not-chosen')) {
         mainApi.addNewMovie(cardInfo.country, cardInfo.director, cardInfo.duration, cardInfo.year, cardInfo.description, `https://api.nomoreparties.co/${cardInfo.image.url}`, cardInfo.trailerLink, cardInfo.nameRU, cardInfo.nameEN, `https://api.nomoreparties.co/${cardInfo.image.formats.thumbnail.url}`, cardInfo.id)
           .then((data) => {
             setSavedCards([...savedCards, data]);
+            e.target.src = chosenPath;
           })
           .catch(err => console.log(err));
-        e.target.src = chosenPath;
       }
       else {
         mainApi.deleteMovie(cardInfo.id)
-          .then(data => console.log(data))
+          .then(() => e.target.src = notChosenPath)
           .catch(err => console.log(err));
-        e.target.src = notChosenPath;
+
       }
     }
     else {
       mainApi.deleteMovie(cardInfo.movieId)
         .then((data) => {
+          setIsDeleteClick(!isDeleteClick);
           setSavedCards(savedCards.filter((c) => {
             return c.movieId !== data.movieId;
-          }))
+          }));
         })
         .catch(err => console.log(err));
     }

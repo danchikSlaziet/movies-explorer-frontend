@@ -5,7 +5,7 @@ import AuthForm from '../AuthForm/AuthForm';
 import { useEffect, useState } from 'react';
 import mainApi from '../../utils/MainApi';
 
-export default function Login({changeLogged, checkToken}) {
+export default function Login({setLoggedIn, checkToken}) {
   const navigate = useNavigate();
   const [formValue, setFormValue] = useState({email: '', password: ''});
   const [errors, setErrors] = useState({});
@@ -20,15 +20,12 @@ export default function Login({changeLogged, checkToken}) {
   function apiLogin({email, password}) {
     mainApi.login({email, password})
       .then((data) => {
-        changeLogged();
+        setLoggedIn(true);
         navigate('/movies');
         })
       .catch((err) => {
         console.log(err);
-        if (err.includes('400')) {
-          setErrors({...errors, authErr: 'Поле почты не прошло валидацию на сервере' });
-        }
-        else if (err.includes('409')) {
+        if (err.includes('409')) {
           setErrors({...errors, authErr: 'Логин или пароль неверны' });
         }
         else if (err.includes('401')) {
@@ -52,7 +49,7 @@ export default function Login({changeLogged, checkToken}) {
         <p className='login__text'>
           Рады видеть!
         </p>
-        <AuthForm errorHandler={handleChange} isValid={isValid} errors={errors} loginHandler={apiLogin} buttonText={'Войти'} formValue={formValue} setFormValue={setFormValue} />
+        <AuthForm errorHandler={handleChange} isValid={isValid} setIsValid={setIsValid} errors={errors} setErrors={setErrors} loginHandler={apiLogin} buttonText={'Войти'} formValue={formValue} setFormValue={setFormValue} />
         <div className='login__link-wrapper'>
           <span className='login__question'>
             Ещё не зарегистрированы?
