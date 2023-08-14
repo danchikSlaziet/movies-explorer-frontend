@@ -31,7 +31,6 @@ export default function SearchForm({setSearchClick, searchClick, isDeleteClick, 
     e.preventDefault();
     if (inMovies) {
       setIsActivePreloader(true);
-      setSearchClick(true);
       localStorage.setItem('search-value', film);
       moviesApi.getAllMovies()
       .then((data) => {
@@ -44,6 +43,7 @@ export default function SearchForm({setSearchClick, searchClick, isDeleteClick, 
       .finally(() => {
         setIsActivePreloader(false);
       });
+      setSearchClick(true);
     }
     else {
       if (isSavedChecked) {
