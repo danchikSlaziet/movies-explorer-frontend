@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import './FilterCheckbox.css';
 
-export default function FilterCheckbox({setIsSavedClick, copyLikedCards, copyCards, isChecked, setIsChecked, isSavedChecked, setIsSavedChecked, inMovies, setIsActivePreloader, setCards, cards, setSavedCards, savedCards, setSearchError, film}) {
+export default function FilterCheckbox({setSearchClick, setIsSavedClick, copyLikedCards, copyCards, isChecked, setIsChecked, isSavedChecked, setIsSavedChecked, inMovies, setIsActivePreloader, setCards, cards, setSavedCards, savedCards, setSearchError, film}) {
 
   useEffect(() => {
     if (localStorage.getItem('checkbox') && inMovies) {
@@ -19,6 +19,7 @@ export default function FilterCheckbox({setIsSavedClick, copyLikedCards, copyCar
       else {
         setCards(copyCards.filter((card) => (card.nameRU.toLowerCase().includes(film.toLowerCase()) || card.nameEN.toLowerCase().includes(film.toLowerCase()))));
       }
+      setSearchClick(true);
   }
   else if (!inMovies && film) {
     setIsSavedChecked(e.target.checked);
