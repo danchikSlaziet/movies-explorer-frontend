@@ -58,10 +58,6 @@ export default function App() {
   };
 
   useEffect(() => {
-    console.log(loggedIn);
-  })
-
-  useEffect(() => {
     mainApi.getInfoAboutMe()
       .then((data) => {
         setCurrentUser({name: data.name, email: data.mail, userID: data.userID});
