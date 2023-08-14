@@ -95,6 +95,9 @@ export default function SearchForm({isDeleteClick, setIsSavedClick, setCopyLiked
     if (film  === '') {
       inMovies && setTimeout(seterror, 300)
     }
+    else if (inMovies && cards.length === 0) {
+      setSearchError('Ничего не найдено.')
+    }
     else {
       inMovies && setSearchError('');
     }
