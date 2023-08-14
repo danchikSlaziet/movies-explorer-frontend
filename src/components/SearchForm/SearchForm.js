@@ -5,7 +5,7 @@ import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import moviesApi from '../../utils/MoviesApi';
 import mainApi from '../../utils/MainApi';
 
-export default function SearchForm({setSearchClick, searchClick, isDeleteClick, setIsSavedClick, setCopyLikedCards, copyLikedCards, setCopyCards, copyCards, inMovies, isSavedChecked, setIsSavedChecked, cards, setCards, setIsChecked, isChecked, setIsActivePreloader, setSearchError, savedCards, setSavedCards}) {
+export default function SearchForm({ isDeleteClick, setIsSavedClick, setCopyLikedCards, copyLikedCards, setCopyCards, copyCards, inMovies, isSavedChecked, setIsSavedChecked, cards, setCards, setIsChecked, isChecked, setIsActivePreloader, setSearchError, savedCards, setSavedCards}) {
   const [film, setFilm] = useState('');
 
   function setNormalSearch(data) {
@@ -43,7 +43,6 @@ export default function SearchForm({setSearchClick, searchClick, isDeleteClick, 
       .finally(() => {
         setIsActivePreloader(false);
       });
-      setSearchClick(true);
     }
     else {
       if (isSavedChecked) {
@@ -96,9 +95,6 @@ export default function SearchForm({setSearchClick, searchClick, isDeleteClick, 
     if (film  === '') {
       inMovies && setTimeout(seterror, 300)
     }
-    else if (inMovies && cards.length === 0 && searchClick) {
-      setSearchError('Ничего не найдено.')
-    }
     else {
       inMovies && setSearchError('');
     }
@@ -112,7 +108,7 @@ export default function SearchForm({setSearchClick, searchClick, isDeleteClick, 
           <img className='search-form__img' src={searchPath} alt="лупа иконка поиска" />
         </button>
       </div>
-      <FilterCheckbox setSearchClick={setSearchClick} setIsSavedClick={setIsSavedClick} copyLikedCards={copyLikedCards} setCopyLikedCards={setCopyLikedCards} setCopyCards={setCopyCards} copyCards={copyCards} film={film} isSavedChecked={isSavedChecked} setIsSavedChecked={setIsSavedChecked} isChecked={isChecked} setIsChecked={setIsChecked} setIsActivePreloader={setIsActivePreloader} cards={cards} setCards={setCards} savedCards={savedCards} setSavedCards={setSavedCards} setSearchError={setSearchError} inMovies={inMovies}/>
+      <FilterCheckbox setIsSavedClick={setIsSavedClick} copyLikedCards={copyLikedCards} setCopyLikedCards={setCopyLikedCards} setCopyCards={setCopyCards} copyCards={copyCards} film={film} isSavedChecked={isSavedChecked} setIsSavedChecked={setIsSavedChecked} isChecked={isChecked} setIsChecked={setIsChecked} setIsActivePreloader={setIsActivePreloader} cards={cards} setCards={setCards} savedCards={savedCards} setSavedCards={setSavedCards} setSearchError={setSearchError} inMovies={inMovies}/>
     </form>
   );
 }
