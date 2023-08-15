@@ -17,7 +17,7 @@ export default function Movies({copyCards, setCopyCards, setIsActivePreloader, c
             </div>
           </section>
           <section className='movie-cardList'>
-            <MoviesCardList setSavedCards={setSavedCards} savedCards={savedCards} inMovies={true} cards={cards} setCards={setCards}/>
+            <MoviesCardList setSavedCards={setSavedCards} savedCards={savedCards} inMovies={true} cards={cards} />
           </section>
         </main>
   );

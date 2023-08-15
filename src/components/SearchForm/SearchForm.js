@@ -5,7 +5,7 @@ import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import moviesApi from '../../utils/MoviesApi';
 import mainApi from '../../utils/MainApi';
 
-export default function SearchForm({ isDeleteClick, setIsSavedClick, setCopyLikedCards, copyLikedCards, setCopyCards, copyCards, inMovies, isSavedChecked, setIsSavedChecked, cards, setCards, setIsChecked, isChecked, setIsActivePreloader, setSearchError, savedCards, setSavedCards}) {
+export default function SearchForm({ setIsSavedClick, setCopyLikedCards, copyLikedCards, setCopyCards, copyCards, inMovies, isSavedChecked, setIsSavedChecked, cards, setCards, setIsChecked, isChecked, setIsActivePreloader, setSearchError, savedCards, setSavedCards}) {
   const [film, setFilm] = useState('');
 
   function setNormalSearch(data) {
@@ -76,17 +76,6 @@ export default function SearchForm({ isDeleteClick, setIsSavedClick, setCopyLike
     }
   }, [])
 
-
-  useEffect(() => {
-    if (!inMovies) {
-      mainApi.getMyMovies()
-      .then((data) => {
-        setCopyLikedCards(data);
-      })
-      .catch(err => console.log(err));
-    }
-  }, [isDeleteClick])
-
   function seterror() {
     setSearchError('Нужно ввести ключевое слово. ')
   }
@@ -99,6 +88,16 @@ export default function SearchForm({ isDeleteClick, setIsSavedClick, setCopyLike
       inMovies && setSearchError('');
     }
   })
+
+  useEffect(() => {
+    if (!inMovies) {
+      mainApi.getMyMovies()
+      .then((data) => {
+        setCopyLikedCards(data);
+      })
+      .catch(err => console.log(err));
+    }
+  }, [])
 
   return (
     <form onSubmit={handleSubmit} className='search-form'>

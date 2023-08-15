@@ -9,12 +9,17 @@ export default function Profile({outHandler, setCurrentUser}) {
   const [isType, setIsType] = useState('button');
   const [isText, setIsText] = useState('Редактировать');
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isDisabledBtn, setIsDisabledBtn] = useState(false);
 
   function updateUserInfo(name, mail) {
+    setIsDisabledBtn(true);
     mainApi.updateProfileInfo({name, mail})
         .then((data) => {
           setCurrentUser({...userInfo, name: data.name, email: data.email});
           setIsSuccess(true);
+          setIsText('Редактировать');
+          setIsType('button');
+          setIsDisabledBtn(false);
         })
         .catch((err) => {
           console.log(err);
@@ -50,8 +55,6 @@ export default function Profile({outHandler, setCurrentUser}) {
     else {     
       setIsInputConfig({...isInputConfig, isDisabled: true, activeClass: ''});
       updateUserInfo(isInputConfig.name, isInputConfig.mail);
-      setIsText('Редактировать');
-      setIsType('button');
     }
   }
 
@@ -122,7 +125,7 @@ export default function Profile({outHandler, setCurrentUser}) {
             <div className={isSuccess ? 'profile__success' : 'profile__other-error'}>
               {isSuccess ? 'Данные успешно сохранены' : errors.otherErr}
             </div>
-            <button onClick={editHandler} className={isValid && !isDisabledButton() ? 'profile__edit-btn profile__btn' : 'profile__edit-btn profile__edit-btn_disabled profile__btn'} disabled={!isValid || isDisabledButton()} type={isType}>{isText}</button>
+            <button onClick={editHandler} className={isValid && !isDisabledButton() && !isDisabledBtn ? 'profile__edit-btn profile__btn' : 'profile__edit-btn profile__edit-btn_disabled profile__btn'} disabled={!isValid || isDisabledButton() || isDisabledBtn} type={isType}>{isText}</button>
             <button onClick={exitHandler} className='profile__exit-btn profile__btn' type="button">Выйти из аккаунта</button>
           </div>
         </form>

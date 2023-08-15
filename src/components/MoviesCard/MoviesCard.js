@@ -5,7 +5,7 @@ import deleteIconPath from '../../images/deleteCard.svg';
 import mainApi from '../../utils/MainApi';
 import { NavLink } from 'react-router-dom';
 
-export default function MoviesCard({setIsDeleteClick, isDeleteClick, cardInfo, inMovies, setSavedCards, savedCards}) {
+export default function MoviesCard({copyLikedCards, setCopyLikedCards, cardInfo, inMovies, setSavedCards, savedCards}) {
   function buttonHandler(e) {
     if (inMovies) {
       if (e.target.src.includes('not-chosen')) {
@@ -26,8 +26,10 @@ export default function MoviesCard({setIsDeleteClick, isDeleteClick, cardInfo, i
     else {
       mainApi.deleteMovie(cardInfo.movieId)
         .then((data) => {
-          setIsDeleteClick(!isDeleteClick);
           setSavedCards(savedCards.filter((c) => {
+            return c.movieId !== data.movieId;
+          }));
+          setCopyLikedCards(copyLikedCards.filter((c) => {
             return c.movieId !== data.movieId;
           }));
         })
